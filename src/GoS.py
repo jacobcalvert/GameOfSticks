@@ -5,14 +5,18 @@
 # Description:  This file is the entry point for
 # my implementation of the Game of Sticks with an
 # AI component.
+# Hosted:       https://github.com/jacobcalvert/GameOfSticks.git
 ###################################################
 import GameModes
 
-MAIN_MENU = 1
-PLAYAGAIN_MENU = 2
+MAIN_MENU = 1       # menu enums
+PLAYAGAIN_MENU = 2  # menu enums
 
 
 def menu(which):
+    """
+    menu(which) prints the selected menu
+    """
     if which is MAIN_MENU:
         print("MENU")
         print("  1) Human VS Human")
@@ -23,6 +27,11 @@ def menu(which):
 
 
 def get_selection(T, lower, upper, prompt, error):
+    """
+        get_selection - abstracted way to prompt for and get bounded
+        inputs. Used in mode selection, stick selection etc. returns a
+        tuple => (success, value)
+    """
     val = 0
     try:
         val = T(input(prompt))
@@ -37,6 +46,11 @@ def get_selection(T, lower, upper, prompt, error):
 
 
 def main():
+    """
+    main - this is the entry point for my Game of Stick impl.
+    we essentially start a while loop and as long as the user wants
+    to keep playing, we don't exit the loop.
+    """
     print("Welcome to the Game of Sticks!!")
     exit_game = 1
     while exit_game != 0:

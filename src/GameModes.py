@@ -6,9 +6,10 @@
 # definition of the game of sticks as well as three
 # derived game modes that implement the various
 # necessary functions.
+# Hosted:       https://github.com/jacobcalvert/GameOfSticks.git
 ###################################################
 import random
-ALTERNATE_OP = 0             # see alternate AI operation section in AI.lost
+ALTERNATE_OP = 0             # see alternate AI operation method in AI.lost
 AI_TRAINING_LOOPS = (10**5)  # number of training loops for Human vs AI. 10^5 = 100,000
 
 

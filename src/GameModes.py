@@ -256,7 +256,7 @@ class AIvAI(AbstractGoS):
 
 def get_game_mode(num):
     return{
-            1: HumanVHuman,
-            2: HumanVAI,
-            3: AIvAI
+            1: (HumanVHuman, None),
+            2: (HumanVAI, False),
+            3: (HumanVAI, True)
             }[num]

@@ -20,8 +20,8 @@ def menu(which):
     if which is MAIN_MENU:
         print("MENU")
         print("  1) Human VS Human")
-        print("  2) Human VS AI")
-        print("  3) AI VS AI")
+        print("  2) Human VS naive AI")
+        print("  3) Human VS trained AI")
     elif which is PLAYAGAIN_MENU:
         print("Play Again? 0=no 1=yes")
 
@@ -51,23 +51,22 @@ def main():
     we essentially start a while loop and as long as the user wants
     to keep playing, we don't exit the loop.
     """
-    print("Welcome to the Game of Sticks!!")
+    print("Welcome to the game of sticks! ")
     exit_game = 1
     while exit_game != 0:
-        menu(MAIN_MENU)
-        ret_val, game_index = get_selection(int, 1, 3, "Which mode do you choose?", "Error, %d is not in range [%d, %d]")
-        if not ret_val:
-            continue
-        ret_val2 , sticks = get_selection(int,10,100,"How many sticks?","Number %d is not in range [%d, %d]")
+
+        ret_val2, sticks = get_selection(int,10,100,"How many sticks are there on the table initially (10-100)? ","Number %d is not in range [%d, %d]")
         while not ret_val2:
-            ret_val2 , sticks = get_selection(int,10,100,"How many sticks?","Number %d is not in range [%d, %d]")
+            ret_val2, sticks = get_selection(int,10,100,"How many sticks are there on the table initially (10-100)? ","Number %d is not in range [%d, %d]")
+        menu(MAIN_MENU)
+        ret_val, game_index = get_selection(int, 1, 3, "Which option do you take (1-3)?", "Error, %d is not in range [%d, %d]")
+        while not ret_val:
+            ret_val, game_index = get_selection(int, 1, 3, "Which option do you take (1-3)?", "Error, %d is not in range [%d, %d]")
         if ret_val and ret_val2:
-            game_type = GameModes.get_game_mode(game_index)
+            game_type, train_ai = GameModes.get_game_mode(game_index)
             if game_type == GameModes.HumanVAI:
-                ret_val, train_ai = get_selection(int,0,1,"Train AI? 0=no 1=yes","%d not in [%d, %d]")
-                while not ret_val:
-                     ret_val, train_ai = get_selection(int,0,1,"Train AI? 0=no 1=yes","%d not in [%d, %d]")
-                if train_ai == 1:
+
+                if train_ai == True:
                     game_obj = game_type(sticks, True)
                     game_obj.game_loop()
                 else:

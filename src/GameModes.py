@@ -8,7 +8,8 @@
 # necessary functions.
 # Hosted:       https://github.com/jacobcalvert/GameOfSticks.git
 ###################################################
-import random
+import random                       # this is for the AI selection
+from collections import Counter     # this is for checking the AI. See AI.__str__
 ALTERNATE_OP = 0             # see alternate AI operation method in AI.lost
 AI_TRAINING_LOOPS = (10**5)  # number of training loops for Human vs AI. 10^5 = 100,000
 
@@ -101,7 +102,7 @@ class HumanVHuman(AbstractGoS):
             if num in range(1, 4):
                 break
             else:
-                self.notify({"msg-type":"error","msg":"Choice must be integer between in [1,3]."})
+                self.notify({"msg-type":"error","msg":"Choice must be integer in [1,3]."})
 
         return num
 
@@ -140,6 +141,11 @@ class AI:
         #  this will go through each holding bag and if the value is
         #  not None it will add that value to the AI's indexed bag from
         #  which the random 'balls' are chosen from.
+        #
+        #  this comprises the 'adding two of the winning move' to the
+        #  bag by 'picking' but not removing a random number, and if we
+        #  win, put one more of that type in that slot, so totally we have
+        #  1 + 1 = 2 of that type of the winning moves.
         for i in range(len(self._bag_hold)):
             if self._bag_hold[i] is not None:
                 self._bags[i].append(self._bag_hold[i])
@@ -158,6 +164,11 @@ class AI:
                     self._bags[i] = [x for x in self._bags[i] if x != self._bag_hold[i]]
                     self._bags[i].append(self._bag_hold[i])
 
+    def __str__(self):
+        out = "AI\n"
+        for bag in self._bags:
+            out += "  " + str(Counter(bag)) + "\n"
+        return out
 
 class HumanVAI(AbstractGoS):
     """
@@ -204,7 +215,7 @@ class HumanVAI(AbstractGoS):
                 if num in range(1, 4):
                     break
                 else:
-                    self.notify({"msg-type":"error","msg":"Choice must be integer between in [1,3]."}, player)
+                    self.notify({"msg-type":"error","msg":"Choice must be integer in [1,3]."}, player)
 
         return num
 
@@ -213,6 +224,8 @@ class AIvAI(AbstractGoS):
     """
     AIvAI: this class is derived from AbstractGoS and fills
     in the appropriate methods for a ai vs ai game of sticks
+    You can actually watch the AI play itself by instantiating
+    it with quiet = False
     """
     def __init__(self, init_sticks):
         AbstractGoS.__init__(self,init_sticks,p1_type=AbstractGoS.PTYPE_AI,p2_type=AbstractGoS.PTYPE_AI)
